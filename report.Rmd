@@ -44,7 +44,7 @@ registerDoParallel(cluster)
 library(caret)
 library(randomForest)
 
-# setting the seed for reproduceability
+# setting the seed for reproducibility
 set.seed(1234)
 ```
 
