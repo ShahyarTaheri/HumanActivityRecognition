@@ -1,16 +1,16 @@
 name: "my-website"
 output_dir: "docs"
 navbar:
-  title: "My Website"
+  title: "Human Activity Recognition"
   left:
-    - text: "Home"
-      href: index.html
     - text: "About"
-      href: about.html    
+      href: index.html
+    - text: "Report"
+      href: report.html    
 output:
   html_document:
     theme: cosmo
     highlight: textmate
     include:
       after_body: footer.html   
-    
+    css: styles.css        

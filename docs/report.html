@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Human Activity Recognition</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="report.html">Report</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analysis</h1>
+
+</div>
+
+
+<div id="summary" class="section level1">
+<h1><span class="header-section-number">1</span> Summary</h1>
+<hr />
+<p>The dataset for human activity recognition consists of 5 classes (sitting-down, standing-up, standing, walking, and sitting) collected on 8 hours of activities of 4 healthy subjects. The objective is to predict the class of activity quality based on the metrics calculated from the sensory signals.</p>
+<p>The training and testing data sets were imported and cleaned to remove unnecessary and low variance variables. The trasining dataset was paratitiond into 75% train and 25% test split. In order to increase model computational performance, multiproccessing techniques were used for training control. Following models were explored in this study:</p>
+<ol style="list-style-type: decimal">
+<li>Random Forest</li>
+<li>Gradient Boost</li>
+<li>Shrinkage Discriminant Analysis</li>
+<li>k-Nearest Neighbors</li>
+</ol>
+<p>The random forest model showed the best performance and least out of sample error. Using this model the activity classes for validation set were predicted.</p>
+</div>
+<div id="preprocessing" class="section level1">
+<h1><span class="header-section-number">2</span> Preprocessing</h1>
+<hr />
+<div id="configure-parallel-processing" class="section level2">
+<h2><span class="header-section-number">2.1</span> Configure Parallel Processing</h2>
+<p>Parallel processing in <code>caret</code> can be accomplished with the <code>parallel</code> and <code>doParallel</code> packages. The following code loads the required libraries (note, these libraries also depend on the iterators and foreach libraries).</p>
+<pre class="r"><code>library(parallel)
+library(doParallel)
+
+cluster = makeCluster(detectCores())
+registerDoParallel(cluster)</code></pre>
+</div>
+<div id="package-loading" class="section level2">
+<h2><span class="header-section-number">2.2</span> Package Loading</h2>
+<pre class="r"><code>library(caret)
+library(randomForest)
+
+# setting the seed for reproduceability
+set.seed(1234)</code></pre>
+</div>
+<div id="import-data" class="section level2">
+<h2><span class="header-section-number">2.3</span> Import Data</h2>
+<pre class="r"><code># Download files if they are not available
+file.url.train = &quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv&quot;
+file.url.test = &quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv&quot;
+if (!file.exists(&quot;data/pml-testing.csv&quot;)){download.file(file.url.test, destfile = &quot;data/pml-testing.csv&quot;)}
+if (!file.exists(&quot;data/pml-training.csv&quot;)){download.file(file.url.train, destfile = &quot;data/pml-training.csv&quot;)}
+
+
+# Load testing and training datasets
+data.train.raw = read.csv(&quot;data/pml-training.csv&quot;, na.strings=c(&quot;NA&quot;,&quot;#DIV/0!&quot;,&quot;&quot;))
+data.test.raw = read.csv(&quot;data/pml-testing.csv&quot;, na.strings=c(&quot;NA&quot;,&quot;#DIV/0!&quot;,&quot;&quot;))</code></pre>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2><span class="header-section-number">2.4</span> Exploratory Data Analysis</h2>
+<p>View the data structure and summary of the variables.</p>
+</div>
+<div id="data-cleanup" class="section level2">
+<h2><span class="header-section-number">2.5</span> Data Cleanup</h2>
+<p>The username, timestamps, and window flag were removed from the data. Also, variables with too manu NAs and low variance were detected and excluded from the dataset.</p>
+<pre class="r"><code># Remove irrelevant variables
+data.train.tidy   = data.train.raw[,-c(1:6)]
+data.test.tidy = data.test.raw[,-c(1:6)]
+
+# Find the variables with all na values and remove them
+naCol = colSums(is.na(data.train.tidy))==0
+data.train.tidy = data.train.tidy[,naCol]
+data.test.tidy = data.test.tidy [,naCol]
+
+# Remove variables with near zero variance
+nzv = nearZeroVar(data.train.tidy,saveMetrics=TRUE)
+if ((sum(nzv$nzv)&gt;0)) {
+  data.train.tidy = data.train.tidy[,nzv$nzv==FALSE]
+}
+
+# Make training class into factor
+data.train.tidy$classe = factor(data.train.tidy$classe)</code></pre>
+</div>
+</div>
+<div id="fitting" class="section level1">
+<h1><span class="header-section-number">3</span> Fitting</h1>
+<hr />
+<div id="configure-training-control" class="section level2">
+<h2><span class="header-section-number">3.1</span> Configure Training Control</h2>
+<p>The resampling method was modified from the default of bootstrapping to k-fold cross-validation. This would generally result in higher processing performance and reduced model accuracy. However, analysis showed that the 5 fold cross-validation resampling technique delivered the same accuracy as the more computationally expensive bootstrapping technique.</p>
+<pre class="r"><code>fit.control &lt;- trainControl(method = &quot;cv&quot;,
+number = 5,
+allowParallel = TRUE)</code></pre>
+</div>
+<div id="subsampling" class="section level2">
+<h2><span class="header-section-number">3.2</span> Subsampling</h2>
+<p>The training data was paratitioned into a 75/25 train/test split:</p>
+<pre class="r"><code># Subsampling the trainingset
+index.train = createDataPartition(y=data.train.tidy$classe, p=0.75, list=FALSE)
+data.train.train = data.train.tidy[index.train, ] 
+data.train.test = data.train.tidy[-index.train, ]</code></pre>
+</div>
+<div id="model-development" class="section level2">
+<h2><span class="header-section-number">3.3</span> Model Development</h2>
+<p>The first model to explore is random forest which can be tarined using <code>caret::train()</code> or <code>randomForest::randomForest()</code>. The advantage of using <code>caret</code> package is its ability to estimate an out of sample error by aggregating the accuracy analysis across a series of training runs. This is because <code>caret</code> automates the process of fitting multiple versions of a given model by varying its parameters and/or folds within a resampling / cross-validation process.</p>
+<p>The random forest model from <code>caret</code> package is computationally intensive, but at the same time is more effective than more computationally efficient algorithms such as linear/shrinkage discriminant analysis. In order to leverage the power of <code>caret</code> library, the <code>parallel</code> package is used.</p>
+<div id="random-forest" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Random Forest</h3>
+<pre class="r"><code>fit.rf = train(classe ~ ., data = data.train.train, method=&#39;rf&#39;, 
+               trControl = fit.control, preProcess = c(&#39;center&#39;, &#39;scale&#39;))</code></pre>
+</div>
+<div id="gradient-boost" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Gradient boost</h3>
+<pre class="r"><code>fit.gbm = train(classe ~ ., data = data.train.train, method=&#39;gbm&#39;, 
+                trControl = fit.control, preProcess = c(&#39;center&#39;, &#39;scale&#39;))</code></pre>
+</div>
+<div id="shrinkage-discriminant-analysis" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Shrinkage Discriminant Analysis</h3>
+<pre class="r"><code>fit.sda = train(classe ~ ., data = data.train.train, method=&#39;sda&#39;, 
+                trControl = fit.control, preProcess = c(&#39;center&#39;, &#39;scale&#39;))</code></pre>
+</div>
+<div id="k-nearest-neighbors" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> k-Nearest Neighbors</h3>
+<pre class="r"><code>fit.kknn = train(classe ~ ., data = data.train.train, method=&#39;kknn&#39;, 
+                trControl = fit.control, preProcess = c(&#39;center&#39;, &#39;scale&#39;))</code></pre>
+</div>
+</div>
+<div id="stop-the-cluster" class="section level2">
+<h2><span class="header-section-number">3.4</span> Stop the Cluster</h2>
+<p>The cluster is shutdown after fitting.</p>
+<pre class="r"><code>stopCluster(cluster)</code></pre>
+</div>
+<div id="model-evaluation" class="section level2">
+<h2><span class="header-section-number">3.5</span> Model Evaluation</h2>
+<div id="random-forest-1" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Random forest</h3>
+<pre class="r"><code>data.pred.rf = predict(fit.rf,data.train.test)
+
+stat.confusion.rf = confusionMatrix(data.train.test$classe ,data.pred.rf)
+print(stat.confusion.rf)</code></pre>
+</div>
+<div id="gradient-boost-1" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Gradient Boost</h3>
+<pre class="r"><code>data.pred.gbm = predict(fit.gbm,data.train.test)
+
+stat.confusion.gbm = confusionMatrix(data.train.test$classe ,data.pred.gbm)
+print(stat.confusion.gbm)</code></pre>
+</div>
+<div id="shrinkage-discriminant-analysis-1" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> Shrinkage Discriminant Analysis</h3>
+<pre class="r"><code>data.pred.sda = predict(fit.sda,data.train.test)
+
+stat.confusion.sda = confusionMatrix(data.train.test$classe ,data.pred.sda)
+print(stat.confusion.sda)</code></pre>
+</div>
+<div id="k-nearest-neighbors-1" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> k-Nearest Neighbors</h3>
+<pre class="r"><code>data.pred.kknn = predict(fit.kknn,data.train.test)
+
+stat.confusion.kknn = confusionMatrix(data.train.test$classe ,data.pred.kknn)
+print(stat.confusion.kknn)</code></pre>
+</div>
+<div id="summary-1" class="section level3">
+<h3><span class="header-section-number">3.5.5</span> Summary</h3>
+<pre class="r"><code>resamps &lt;- resamples(list(Random.Forest = fit.rf,
+                          Gradient.Boost = fit.gbm,
+                          Shrinkage.Discriminant.Analysis = fit.sda,
+                          k.Nearest.Neighbors= fit.kknn))
+                          
+bwplot(resamps , metric = c(&quot;Kappa&quot;,&quot;Accuracy&quot;))</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>stat.accuracy.rf &lt;- postResample(data.pred.rf, data.train.test$classe)
+stat.ose.rf =  1 - as.numeric(stat.confusion.rf$overall[1])</code></pre>
+<p>The random forest was able to outperfom other algorithms. The model achieved 99.9184339% accuracy and 0.0815661% out of sample error.</p>
+</div>
+</div>
+<div id="variable-importance" class="section level2">
+<h2><span class="header-section-number">3.6</span> Variable importance</h2>
+<p>Using the fitted random forest model the importance of variables can be studied:</p>
+<pre class="r"><code>fit.varImp =  varImp(fit.rf)
+# Top 40 plot
+plot(fit.varImp, main = &quot;Top 25 Important Variables&quot;, top = 25)</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">4</span> Conclusion</h1>
+<hr />
+<p>The random forest model had the best accuracy followed by gradient boost and k-Nearest Neighbors. It should be noted that the k-Nearest Neighbors had the best accuracy/speed ratio. The advantage of using random forest is it’s ability to decorrelates trees (relative to bagged trees). This is important when dealing with mulitple features which may be correlated. Also, it has reduced variance relative to regular trees.</p>
+<p>Using the random forest model we can predict the class of activities for the validation dataset:</p>
+<pre class="r"><code>data.valid.rf = predict(fit.rf,data.test.tidy)
+answers = data.frame(Problem = data.test.tidy$problem_id, answer = data.valid.rf)
+print(answers)</code></pre>
+<pre><code>##    Problem answer
+## 1        1      B
+## 2        2      A
+## 3        3      B
+## 4        4      A
+## 5        5      A
+## 6        6      E
+## 7        7      D
+## 8        8      B
+## 9        9      A
+## 10      10      A
+## 11      11      B
+## 12      12      C
+## 13      13      B
+## 14      14      A
+## 15      15      E
+## 16      16      E
+## 17      17      A
+## 18      18      B
+## 19      19      B
+## 20      20      B</code></pre>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">A work by <a href="https://github.com/ShahyarTaheri/">Shahyar Taheri</a></p>
+<p style="text-align: center;"><span style="color: #808080;"><em>taheri@vt.edu</em></span></p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://twitter.com/" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/shahyar-taheri-9b7190b4/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/ShahyarTaheri/" class="fa fa-github"></a>
+</p>
+
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
